@@ -10,7 +10,6 @@ from .const import CONF_HOST_MANUAL, CONF_INFO, DOMAIN
 
 DISCOVER_TIMEOUT = 5
 
-
 class SensemeFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle SenseME discovery config flow."""
 
@@ -75,7 +74,7 @@ class SensemeFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 return await self.async_step_manual()
 
             for device in self._discovered_devices:
-                if device == user_input[CONF_HOST]:
+                if device.name == user_input[CONF_HOST]:  # Fix this line
                     return await self._async_entry_for_device(device)
 
         return self.async_show_form(
