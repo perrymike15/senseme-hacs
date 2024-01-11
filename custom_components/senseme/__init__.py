@@ -16,10 +16,9 @@ from homeassistant.exceptions import ConfigEntryNotReady
 
 from .const import CONF_INFO, DOMAIN, UPDATE_RATE
 
-PLATFORMS = [FAN_DOMAIN, LIGHT_DOMAIN, BINARYSENSOR_DOMAIN, SWITCH_DOMAIN]
-
 _LOGGER = logging.getLogger(__name__)
 
+PLATFORMS = [FAN_DOMAIN, LIGHT_DOMAIN, BINARYSENSOR_DOMAIN, SWITCH_DOMAIN]
 
 async def async_setup(hass: HomeAssistant, config: dict):
     """Set up the SenseME component."""
@@ -31,7 +30,6 @@ async def async_setup(hass: HomeAssistant, config: dict):
             "instead use Home Assistant frontend to add this integration"
         )
     return True
-
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Set up SenseME from a config entry."""
@@ -62,6 +60,19 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     return True
 
+async def async_update_entry(hass: HomeAssistant, entry: ConfigEntry):
+    """Update SenseME config entry."""
+    device = hass.data[DOMAIN][entry.entry_id][CONF_DEVICE]
+
+    if not await device.async_update():
+        _LOGGER.warning(
+            "%s: Update failed, trying again in %s minutes",
+            device.name,
+            UPDATE_RATE,
+        )
+        raise ConfigEntryNotReady
+
+    return True
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Unload a config entry."""
@@ -80,7 +91,6 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
         hass.data[DOMAIN].pop(entry.entry_id)
 
     return unload_ok
-
 
 class SensemeEntity:
     """Base class for senseme entities."""
