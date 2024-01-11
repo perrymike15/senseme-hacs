@@ -9,17 +9,25 @@ from homeassistant.components.binary_sensor import (
 from homeassistant.const import CONF_DEVICE
 
 from . import SensemeEntity
-from .const import DOMAIN
+from .const import DOMAIN, UPDATE_RATE
 
 _LOGGER = logging.getLogger(__name__)
-
 
 async def async_setup_entry(hass, entry, async_add_entities):
     """Set up SenseME occupancy sensors."""
     device = hass.data[DOMAIN][entry.entry_id][CONF_DEVICE]
+
+    # Update the device before creating the entity
+    if not await device.async_update():
+        _LOGGER.warning(
+            "%s: Update failed, trying again in %s minutes",
+            device.name,
+            UPDATE_RATE,
+        )
+        raise ConfigEntryNotReady
+
     if device.has_sensor:
         async_add_entities([HASensemeOccupancySensor(device)])
-
 
 class HASensemeOccupancySensor(SensemeEntity, BinarySensorEntity):
     """Representation of a Big Ass Fans SenseME occupancy sensor."""
