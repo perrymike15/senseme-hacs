@@ -1,6 +1,6 @@
 # Home Assistant integration for SenseME fans HACS Edition
 
-[![Github version](https://img.shields.io/github/v/release/mikelawrence/senseme-hacs)](https://github.com/mikelawrence/senseme-hacs/releases/latest) [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://hacs.xyz/)
+[![Github version](https://img.shields.io/github/v/release/mikeperry/senseme-hacs)](https://github.com/mikeperry/senseme-hacs/releases/latest) [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://hacs.xyz/)
 
 ***Note: SenseME integration is becoming a part of Home Assistant. Stay tuned for updates!***
 
