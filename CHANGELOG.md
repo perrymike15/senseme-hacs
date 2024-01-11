@@ -1,5 +1,7 @@
 # Changelog for Home Assistant integration for SenseME fans
 
+## 2.2.6 - Bump python support to 3.11
+
 ## 2.2.5 - Bump aiosenseme library to >= v0.5.5
 
 * Improve startup time when initially connecting to device.
